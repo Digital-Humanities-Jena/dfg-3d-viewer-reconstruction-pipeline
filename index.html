@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Image upload for 3D model creation</title>
+  <base href="./src">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="./js/dfg3d_script.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css" media="screen" />
+
+</head>
+
+<body>
+<img src="./assets/img/logo_jena4d.jpg" width="100Px" alt="Logo"></img>
+in cooperation with:
+<img src="./assets/img/logo_icomosde.jpg" width="50Px" alt="Logo2"></img>
+<h1>3D reconstruction service</h1>
+    <div id="id1">
+    <form id="form1" class="pure-form pure-form-stacked" enctype="multipart/form-data" method="post" action="">
+    <fieldset>
+      <style>
+        .custom-restricted-width {
+            /* To limit the menu width to the content of the menu: */
+            display: inline-block;
+            /* Or set the width explicitly: */
+            /* width: 10em; */
+        }
+    </style>
+    <div class="pure-menu custom-restricted-width">
+        <a class="pure-menu-link" onclick="visswitch(7,1,2,3,4,5,6)">Step 1: Taking pictures</a>
+        <div id="7" style="display:block">
+
+        <p> The reconstruction service is a non-commercial infrastructure created within a university project. It is intended to enable people worldwide to digitize heritage at risk by war, disasters or other threats. The purpose is to document heritage via images and 3D models from user-generated photographs and to upload in the German-based <a href="http://dfg-viewer.de/en/dfg-3d-viewer">DFG 3D Viewer</a> maintained by the German National Digital Library. All uploaded content will be reviewed and only verified and clarified content will be processed.</p>
+        <p><b> How to take pictures suitable for photogrammetry? Take 20-30 images from all sides of the object. if possible take another 8-10 images from top of the object.</b> </p>
+        <img src="./assets/img/Photogrammetry.gif" heigth="270Px" alt="Process"></img<br>
+        <p><b> Please select pictures for upload.</b> </p>
+        <div>
+          <input type="file" name="fileToUpload" id="fileToUpload" onchange="fileSelected();" multiple accept="image/*" />
+          <label for="fileToUpload">Select images as *.jpg or *.png files</label><br />
+          </div>
+          <div id="details"></div>
+        <button type="button" class="pure-button pure-button-primary" onclick="visswitch(1,7,2,3,4,5,6)">Next step</button>
+      </div>
+
+        <a class="pure-menu-link" onclick="visswitch(1,7,2,3,4,5,6)">Step 2: Photographed Object</a>        
+        <div id="1" style="display:none">
+        <h2>Photographed Object</h2>
+        Search@Wikidata: <input type="text" oninput="wikibasesearch()" name="location" id="searchTxt">
+          <div id="placename"></div>
+          <input type="button" class="pure-button" value="Retrieve Wikidata" onclick="wikibaseretrieve()"><br>
+          <p name="wikidataitem" id="wikidataitem"></p><br>
+          Object name: <input type="text" name="itemLabel" id="itemLabel" ><br>
+          <i>Please provide a title for the object you have photographed.</i><br>
+          Location: <input type="text" name="place" id="place"><br>
+          <p name="geonamesid" id="geonamesid"></p><br>
+          <div name="coordinatelocation" id="coordinatelocation"></div> 
+          Country: <input type="text" name="country" id="country"><br>
+          <p name="wikidatacountry" id="wikidatacountry"></p><br>
+          <br>
+        <label for="modeldescription">Object Description</label>
+        <input type="text" id="modeldescription" placeholder="Please describe your object" />
+        <br>
+        <button type="button" class="pure-button pure-button-primary" onclick="visswitch(2,1,7,3,4,5,6)">Next step</button>
+        </div>
+
+
+        <a class="pure-menu-link" onclick="visswitch(2,7,1,3,4,5,6)">Step 3: Photographer</a>
+        <div id="2" style="display:none">
+          <h2>Photographer information</h2>
+          In case you have a ORCID ID you can retrieve your data from that registry. Currently only exact matches will be found. Format: "*Family name*, *Given Name*"
+          Search@Orcid: <input type="text" oninput="orcidsearch()" name="searchOrc" id="searchOrc">
+          <input type="button" class="pure-button" value="Retrieve Orcid ID" onclick="orcidretrieve()"><br>
+          <br>
+          <div id="personname"></div>
+          <div id="orcidid"></div><br>
+          Institution: <input type="text" name="institution" id="institution"><br>
+          Family Name: <input type="text" name="familyname" id="familyname"><br>
+          Given Name: <input type="text" name="givenname" id="givenname"><br>
+          Email: <input type="text" name="email" id="email"><br>
+          <br>
+          <button type="button" class="pure-button pure-button-primary" onclick="visswitch(3,7,1,2,4,5,6)">Next step</button>
+      </div>
+      <a class="pure-menu-link" onclick="visswitch(3,7,1,2,4,5,6)">Step 4: Copyright</a>
+        <div id="3" style="display:none">
+        <h2>Copyright Information</h2>
+        <label for="stacked-state">Select license type</label>
+        <select id="stacked-state">
+            <option>Open Source: CC-0 (no sharing restrictions)</option>
+            <option>CC-BY (naming the creator)</option>
+        
+        </select>
+        By uploading the file, I assure that I have the copyright rights of use and exploitation of the mentioned works or reproductions and that I grant these rights to the project Jena4D of the Friedrich Schiller University Jena, Fürstengraben 1, 07743 Jena, represented by the president, under the conditions of a CC BY 4.0 license (https://creativecommons.org/licenses/by/4.0/).
+        This means that I am either the sole author of the works or photographs uploaded by me or that the rights required for the aforementioned licensing have been transferred to me with the possibility of further sublicensing. I indemnify the Friedrich Schiller University Jena from any claims of third parties in connection with the rights granted here.
+        <br>
+        <button type="button" class="pure-button pure-button-primary" onclick="check(5,7,1,2,3,4,6)">Next step</button>
+      </div>
+
+      
+     
+      
+      <a class="pure-menu-link" onclick="check(5,7,1,2,3,4,6)">Step 5: Finalize</a>
+        <div id="5" style="display:none">
+        <h2>Check all information and start upload</h2>
+        <br>
+            <div id="forms"></div>
+            <div id="infobox"></div>
+   
+          <div>
+            <div>
+            <input type="button" id="send"/>
+              </div>
+              <div id="progress"></div>
+      </div>
+    </fieldset>
+</form>
+<a class="pure-menu-link" onclick="check(4,7,1,2,3,6,5)">FAQ</a>
+<div id="4" style="display:none"> 
+  <p><b>Do you need any special equipment or training? / Вам потрібне спеціальне обладнання чи навчання?</b><br>
+    You need just your phone to take photos of your heritage object and directly upload via your browser. Capture can be done without any special training, but for best results please view and follow the introducery tutorial.<br>
+    Просто твій телефон. Зйомку можна припинити без спеціальної підготовки.</p>
+  
+    <p><b>What can I scan? / Що я можу сканувати?</b><br>
+    Everything counts when preserving your history: from famous statues and buildings to artworks. Materials with lots of texture tiling work really well like statues and artwork. Shiny and transparent surfaces are difficult for the reconstruction algorithm. 
+    Even larger buildings can be scanned, but always consult with local regulations. We discourage drone capture where forbidden. Always ensure your personal safety.<br>
+    Для збереження вашої історії важливо все: від знаменитих статуй до місцевих місць зустрічей. Сканування працює шляхом отримання інформації про глибину. Це означає, що статуї, пам’ятники та архітектура отримують найкращі результати. Ви також можете сканувати приміщення в приміщенні, надаючи історичний документ про життя в притулках, наприклад. 
+  </p>
+  
+    <p><b>Which precautions should I take? / Які запобіжні заходи мені слід вжити?</b><br>
+    Stay safe at all times! Respect curfews and do not attempt capture in areas of immediate conflict. NEVER REVEAL THE LOCATION OF MILITARY PERSONNEL OR EQUIPMENT — it is punishable by law according to article 114-2.<br>
+    Будьте в безпеці завжди! Поважайте комендантську годину і не намагайтеся знімати в зонах безпосереднього конфлікту. НІКОЛИ НЕ РОЗКРИВАЙТЕ МІСЦЕННЯ ВІЙСЬКОВИХ АБО ОБЛАДНАННЯ — це карається законом відповідно до статті 114-2.</p>
+  
+    <p><b>Who made this project? / Хто створив цей проект?</b><br>
+    This project is made in collaboration between The German National Committee of ICOMOS, and the DH Group at the University of Jena. All partners are public bodies and contribute on a 100% non-profit basis.
+  </p>
+      
+    <p><b>What does happen with your data?</b><br>
+      To ensure data quality and legal confirmation all submitted data will be reviewed and verified by volunteers. In case of issues (e.g. due to insufficient images) you will be contacted via email. 
+  </p>
+    
+    <p><b>Where can I access the final results?</b><br>
+      Images you have captured will be processed by servers in Germany to create a 3D model. All material will be reviewed by volunteers. In case of verified and working 3D reconstructions the scans will be made available at the DFG 3D Viewer as a public viewer infrastructure operated by the German National Digital Library. 
+    
+    </p>
+  
+    <p><b>Who owns the rights to the captures? / Кому належать права на знімки?</b><br>
+    The rights to all captured images and resultant 3D data belong to the individual creator by default. Once the content is published to the open repository, the asset will be marked as Savable and licensed under Creative Commons 4.0. <br>
+    Права на всі записані 3D-дані за замовчуванням належать окремому автору. Щойно вміст буде опубліковано у відкритому репозиторії, об’єкт буде позначено як придатний для збереження та ліцензований відповідно до Creative Commons 4.0.
+  </p>
+  
+    <p><b>Does anyone make money from this? / Хтось заробляє на цьому гроші?</b><br>
+    The project is 100% non-profit. Capture, Usage, Download and Storage will be provided free of charge by German universities and libraries.
+    </p>
+  
+</div>
+<a class="pure-menu-link" onclick="check(6,7,1,2,3,4,5)">Imprint / Data privacy</a>
+<div id="6" style="display:none">
+    <p>
+        <b>Contact:<br></b>
+        Research Group Visual Humanities<br>
+        Am Leutragraben 1<br>
+        DE-07737 Jena<br>
+        
+        Email: info@visualhumanities.org<br>
+        </p>
+        <p>
+            We process the data of our customers within the scope of our contractual services, which include conceptual and strategic consulting, campaign planning, software and design development/consulting or maintenance, implementation of campaigns and processes/handling, server administration, data analysis/consulting services and training services.
+            In this context, we process inventory data (e.g., customer master data, such as names or addresses), contact data (e.g., e-mail, telephone numbers), content data (e.g., text entries, photographs, videos), contract data (e.g., subject matter of contract, term), payment data (e.g., bank details, payment history), usage data and metadata (e.g., in the context of evaluating and measuring the success of marketing measures). 
+            As a matter of principle, we do not process special categories of personal data, unless these are components of commissioned processing. Data subjects include our customers, prospective customers as well as their customers, users, website visitors or employees as well as third parties. The legal basis for the processing results from Art. 6 para. 1 lit. b DSGVO (contractual services), Art. 6 para. 1 lit. f DSGVO (analysis, statistics, optimization, security measures). 
+            We process data that are necessary for the justification and fulfillment of the contractual services and point out the necessity of their indication. Disclosure to external parties only takes place if it is necessary in the context of an order. When processing the data provided to us as part of an order, we act in accordance with the instructions of the client as well as the legal requirements of a contract processing pursuant to Art. 28 DSGVO and do not process the data for any other purposes than those specified in the order.
+            We delete the data after the expiry of legal warranty and comparable obligations. The necessity of keeping the data is reviewed every three years; in the case of legal archiving obligations, the deletion takes place after their expiry (6 years, according to § 257 para. 1 HGB, 10 years, according to § 147 para. 1 AO). In the case of data disclosed to us by the client as part of an order, we delete the data in accordance with the specifications of the order, generally after the end of the order.
+    </p>    
+    </div>
+</ul>
+</div>
+</div>
+<script>
+
+</script>
+ </body>
+</html>
